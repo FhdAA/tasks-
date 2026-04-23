@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام مهمات الفروع - فرع الزهور</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #f59e0b;
+            --text-main: #f8fafc;
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: auto; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 12px;
+        }
+
+        .branch-title { color: var(--primary); font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-blue);
+        }
+
+        .stat-card.green { border-bottom-color: var(--accent-green); }
+        .stat-card h3 { font-size: 2rem; margin: 5px 0; }
+        .stat-card p { font-size: 0.9rem; color: #94a3b8; }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        .tasks-section { background: var(--card-bg); padding: 20px; border-radius: 15px; }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #2d3748;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .task-item input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary); }
+        .task-text { font-size: 0.95rem; line-height: 1.4; }
+
+        .side-section { display: flex; flex-direction: column; gap: 20px; }
+        .side-card { background: var(--card-bg); padding: 15px; border-radius: 12px; }
+        
+        textarea, input[type="number"], input[type="text"] {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .attendance-item { display: flex; gap: 5px; margin-bottom: 8px; }
+        .add-btn { background: var(--primary); color: #000; border: none; padding: 8px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+
+        .submit-btn {
+            grid-column: span 2;
+            padding: 18px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        @media (max-width: 768px) { .main-content { grid-template-columns: 1fr; } .submit-btn { grid-column: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="branch-title">🏢 نظام مهمات الفروع - فرع الزهور</div>
+        <div id="current-date">الخميس، 23 نيسان 2026</div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <p>إجمالي المهمات</p>
+            <h3>10</h3>
+        </div>
+        <div class="stat-card green">
+            <p>منجزة</p>
+            <h3 id="completed-count">0</h3>
+        </div>
+    </div>
+
+    <form id="branch-master-form">
+        <div class="main-content">
+            <div class="tasks-section">
+                <h4>📋 مهمات اليوم</h4>
+                <div id="tasks-container">
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">فتح الفرع والتأكد من جاهزية الموظفين وتوزيع المهمات الصباحية</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">مراجعة مبيعات أمس ومقارنتها بالهدف اليومي</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">جرد القطع الناقصة من الرفوف وتحديث طلب التجهيز</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">متابعة دوام الموظفين وتسجيل الغيابات والتأخيرات</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">التأكد من نظافة الفرع وترتيب المانيكانات والواجهة</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">مراجعة العروض والتخفيضات الحالية وتطبيقها بشكل صحيح</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">إدارة عملية الدفع والتأكد من صحة الكاشير</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">متابعة وصول البضاعة الجديدة والتحقق من الفواتير</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">تحفيز فريق المبيعات وتذكيرهم بأهداف اليوم</div></div>
+                    <div class="task-item"><input type="checkbox" class="task-check"><div class="task-text">إعداد التقرير اليومي الختامي وإغلاق الكاشير</div></div>
+                </div>
+            </div>
+
+            <div class="side-section">
+                <div class="side-card">
+                    <h4>📊 إحصائيات المبيعات</h4>
+                    <label>عدد الفواتير اليومية</label>
+                    <input type="number" id="invoices" name="invoices" placeholder="0" required>
+                    
+                    <label>إجمالي عدد القطع المباعة</label>
+                    <input type="number" id="items_sold" name="items_sold" placeholder="0" required>
+                </div>
+
+                <div class="side-card">
+                    <h4>👥 حضور الموظفين</h4>
+                    <div id="attendance-list">
+                        <div class="attendance-item"><input type="text" class="emp-name" placeholder="اسم الموظف الحاضر"></div>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addEmp()">+ إضافة موظف آخر</button>
+                </div>
+
+                <div class="side-card">
+                    <h4>📝 ملاحظات إضافية</h4>
+                    <textarea id="admin_notes" name="admin_notes" rows="4" placeholder="اكتب أي ملاحظات أو مشاكل..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-all">إرسال التقرير النهائي للإدارة</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    // ربط المعرفات الخاصة بك مباشرة
+    (function() { 
+        emailjs.init("0mQuxko5lxhzTHMhD"); 
+    })();
+
+    document.querySelectorAll('.task-check').forEach(check => {
+        check.addEventListener('change', () => {
+            document.getElementById('completed-count').innerText = document.querySelectorAll('.task-check:checked').length;
+        });
+    });
+
+    function addEmp() {
+        const div = document.createElement('div');
+        div.className = 'attendance-item';
+        div.innerHTML = `<input type="text" class="emp-name" placeholder="اسم الموظف الحاضر">`;
+        document.getElementById('attendance-list').appendChild(div);
+    }
+
+    document.getElementById('branch-master-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-all');
+        btn.disabled = true;
+        btn.innerText = 'جاري الإرسال...';
+
+        const emps = Array.from(document.querySelectorAll('.emp-name')).map(i => i.value).filter(v => v !== "").join(' , ');
+
+        let taskStatus = "";
+        document.querySelectorAll('.task-item').forEach((item, index) => {
+            const isChecked = item.querySelector('input').checked ? "✅" : "❌";
+            const text = item.querySelector('.task-text').innerText;
+            taskStatus += `${index+1}. ${text}: ${isChecked}\n`;
+        });
+
+        const params = {
+            invoice_count: document.getElementById('invoices').value,
+            items_count: document.getElementById('items_sold').value,
+            attendance_list: emps,
+            tasks_report: taskStatus,
+            notes: document.getElementById('admin_notes').value
+        };
+
+        // استخدام معرفات الخدمة والقالب التي زودتني بها
+        emailjs.send('service_xlj0sfq', 'template_k6ix10l', params)
+            .then(() => {
+                alert('تم إرسال التقرير بنجاح للإدارة! ✅');
+                btn.disabled = false;
+                btn.innerText = 'إرسال التقرير النهائي للإدارة';
+                this.reset();
+                document.getElementById('completed-count').innerText = '0';
+            }, (err) => {
+                alert('فشل في الإرسال، يرجى المحاولة لاحقاً.');
+                btn.disabled = false;
+                btn.innerText = 'إرسال التقرير النهائي للإدارة';
+            });
+    });
+</script>
+</body>
+</html>
