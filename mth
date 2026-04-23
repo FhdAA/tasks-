@@ -1,0 +1,7 @@
+# افتح CMD أو PowerShell بمجلد الملف
+git init
+git add branch-manager-dashboard.html
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/branch-tasks.git
+git push -u origin main
